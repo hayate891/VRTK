@@ -13,6 +13,29 @@ namespace VRTK
     public abstract class SDK_BaseController : SDK_Base
     {
         /// <summary>
+        /// Types of buttons on a controller
+        /// </summary>
+        /// <param name="ButtonOne">Button One on the controller.</param>
+        /// <param name="ButtonTwo">Button Two on the controller.</param>
+        /// <param name="Grip">Grip on the controller.</param>
+        /// <param name="GripHairline">Grip Hairline on the controller.</param>
+        /// <param name="StartMenu">Start Menu on the controller.</param>
+        /// <param name="Trigger">Trigger on the controller.</param>
+        /// <param name="TriggerHairline">Trigger Hairline on the controller.</param>
+        /// <param name="Touchpad">Touchpad on the controller.</param>
+        public enum ButtonTypes
+        {
+            ButtonOne,
+            ButtonTwo,
+            Grip,
+            GripHairline,
+            StartMenu,
+            Trigger,
+            TriggerHairline,
+            Touchpad,
+        }
+
+        /// <summary>
         /// Concepts of controller button press
         /// </summary>
         /// <param name="Press">The button is currently being pressed.</param>
@@ -188,6 +211,28 @@ namespace VRTK
         /// <param name="hand">The hand enum of which controller model to retrieve.</param>
         /// <returns>The GameObject that has the model alias within it.</returns>
         public abstract GameObject GetControllerModel(ControllerHand hand);
+
+        /// <summary>
+        /// The GetControllerModelHand method returns the hand for the given controller model GameObject.
+        /// </summary>
+        /// <param name="controllerModel">The controller model GameObject to get the hand for.</param>
+        /// <returns>The hand enum for which the given controller model is for.</returns>
+        public virtual ControllerHand GetControllerModelHand(GameObject controllerModel)
+        {
+            var sdkManager = VRTK_SDKManager.instance;
+            if (sdkManager != null)
+            {
+                if (controllerModel == sdkManager.modelAliasLeftController)
+                {
+                    return ControllerHand.Left;
+                }
+                else if (controllerModel == sdkManager.modelAliasRightController)
+                {
+                    return ControllerHand.Right;
+                }
+            }
+            return ControllerHand.None;
+        }
 
         /// <summary>
         /// The GetControllerRenderModel method gets the game object that contains the given controller's render model.

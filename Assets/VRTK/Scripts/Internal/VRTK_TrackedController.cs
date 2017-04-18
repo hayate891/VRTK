@@ -13,18 +13,17 @@
 
     public class VRTK_TrackedController : MonoBehaviour
     {
-        public uint index = uint.MaxValue;
-
         public event VRTKTrackedControllerEventHandler ControllerEnabled;
         public event VRTKTrackedControllerEventHandler ControllerDisabled;
         public event VRTKTrackedControllerEventHandler ControllerIndexChanged;
 
-        private Coroutine enableControllerCoroutine = null;
-        private GameObject aliasController;
+        protected Coroutine enableControllerCoroutine = null;
+        protected GameObject aliasController;
+        protected VRTK_ControllerReference controllerReference;
 
         public virtual void OnControllerEnabled(VRTKTrackedControllerEventArgs e)
         {
-            if (index < uint.MaxValue && ControllerEnabled != null)
+            if (controllerReference.IsValid() && ControllerEnabled != null)
             {
                 ControllerEnabled(this, e);
             }
@@ -32,7 +31,7 @@
 
         public virtual void OnControllerDisabled(VRTKTrackedControllerEventArgs e)
         {
-            if (index < uint.MaxValue && ControllerDisabled != null)
+            if (controllerReference.IsValid() && ControllerDisabled != null)
             {
                 ControllerDisabled(this, e);
             }
@@ -40,16 +39,21 @@
 
         public virtual void OnControllerIndexChanged(VRTKTrackedControllerEventArgs e)
         {
-            if (index < uint.MaxValue && ControllerIndexChanged != null)
+            if (controllerReference.IsValid() && ControllerIndexChanged != null)
             {
                 ControllerIndexChanged(this, e);
             }
         }
 
+        public virtual VRTK_ControllerReference GetControllerReference()
+        {
+            return controllerReference;
+        }
+
         protected virtual VRTKTrackedControllerEventArgs SetEventPayload(uint previousIndex = uint.MaxValue)
         {
             VRTKTrackedControllerEventArgs e;
-            e.currentIndex = index;
+            e.currentIndex = VRTK_ControllerReference.GetRealIndex(controllerReference);
             e.previousIndex = previousIndex;
             return e;
         }
@@ -86,20 +90,20 @@
 
         protected virtual void FixedUpdate()
         {
-            VRTK_SDK_Bridge.ControllerProcessFixedUpdate(index);
+            VRTK_SDK_Bridge.ControllerProcessFixedUpdate(controllerReference);
         }
 
         protected virtual void Update()
         {
             uint checkIndex = VRTK_DeviceFinder.GetControllerIndex(gameObject);
-            if (index < uint.MaxValue && checkIndex != index)
+            if (controllerReference != null && controllerReference.IsValid() && checkIndex != controllerReference.index)
             {
-                uint previousIndex = index;
-                index = checkIndex;
+                uint previousIndex = controllerReference.index;
+                controllerReference = VRTK_ControllerReference.GetControllerReference(checkIndex);
                 OnControllerIndexChanged(SetEventPayload(previousIndex));
             }
 
-            VRTK_SDK_Bridge.ControllerProcessUpdate(index);
+            VRTK_SDK_Bridge.ControllerProcessUpdate(controllerReference);
 
             if (aliasController != null && gameObject.activeInHierarchy && !aliasController.activeSelf)
             {
@@ -116,7 +120,7 @@
                 yield return null;
             }
 
-            index = VRTK_DeviceFinder.GetControllerIndex(gameObject);
+            controllerReference = VRTK_ControllerReference.GetControllerReference(gameObject);
             OnControllerEnabled(SetEventPayload());
         }
     }

@@ -976,7 +976,7 @@ Adding the `VRTK_DestinationMarker_UnityEvents` component to `VRTK_DestinationMa
  * `Quaternion? destinationRotation` - The world rotation of the destination marker.
  * `bool forceDestinationPosition` - If true then the given destination position should not be altered by anything consuming the payload.
  * `bool enableTeleport` - Whether the destination set event should trigger teleport.
- * `uint controllerIndex` - The optional index of the controller emitting the beam.
+ * `VRTK_ControllerReference controllerReference` - The optional reference to the controller controlling the destination marker.
 
 ### Class Methods
 
@@ -1617,7 +1617,7 @@ Adding the `VRTK_BasicTeleport_UnityEvents` component to `VRTK_BasicTeleport` ob
  * `Quaternion? destinationRotation` - The world rotation of the destination marker.
  * `bool forceDestinationPosition` - If true then the given destination position should not be altered by anything consuming the payload.
  * `bool enableTeleport` - Whether the destination set event should trigger teleport.
- * `uint controllerIndex` - The optional index of the controller emitting the beam.
+ * `VRTK_ControllerReference controllerReference` - The optional reference to the controller controlling the destination marker.
 
 ### Class Methods
 
@@ -1938,7 +1938,7 @@ Adding the `VRTK_PlayerClimb_UnityEvents` component to `VRTK_PlayerClimb` object
 
 ### Event Payload
 
- * `uint controllerIndex` - The index of the controller doing the interaction.
+ * `VRTK_ControllerReference controllerReference` - The reference to the controller doing the interaction.
  * `GameObject target` - The GameObject of the interactable object that is being interacted with by the controller.
 
 ### Example
@@ -2242,7 +2242,7 @@ Adding the `VRTK_ControllerEvents_UnityEvents` component to `VRTK_ControllerEven
 
 ### Event Payload
 
- * `uint controllerIndex` - The index of the controller that was used.
+ * `VRTK_ControllerReference controllerReference` - The reference for the controller that was used.
  * `float buttonPressure` - The amount of pressure being applied to the button pressed. `0f` to `1f`.
  * `Vector2 touchpadAxis` - The position the touchpad is touched at. `(0,0)` to `(1,1)`.
  * `float touchpadAngle` - The rotational position the touchpad is being touched at, 0 being top, 180 being bottom and all other angles accordingly. `0f` to `360f`.
@@ -2954,7 +2954,7 @@ Adding the `VRTK_InteractTouch_UnityEvents` component to `VRTK_InteractTouch` ob
 
 ### Event Payload
 
- * `uint controllerIndex` - The index of the controller doing the interaction.
+ * `VRTK_ControllerReference controllerReference` - The reference to the controller doing the interaction.
  * `GameObject target` - The GameObject of the interactable object that is being interacted with by the controller.
 
 ### Class Methods
@@ -3272,10 +3272,10 @@ The Interact Haptics script is attached on the same GameObject as an Interactabl
 
 #### HapticsOnTouch/1
 
-  > `public virtual void HapticsOnTouch(uint controllerIndex)`
+  > `public virtual void HapticsOnTouch(VRTK_ControllerReference controllerReference)`
 
   * Parameters
-   * `uint controllerIndex` - The controller index to activate the haptic feedback on.
+   * `VRTK_ControllerReference controllerReference` - The reference to the controller to activate the haptic feedback on.
   * Returns
    * _none_
 
@@ -3283,10 +3283,10 @@ The HapticsOnTouch method triggers the haptic feedback on the given controller f
 
 #### HapticsOnGrab/1
 
-  > `public virtual void HapticsOnGrab(uint controllerIndex)`
+  > `public virtual void HapticsOnGrab(VRTK_ControllerReference controllerReference)`
 
   * Parameters
-   * `uint controllerIndex` - The controller index to activate the haptic feedback on.
+   * `VRTK_ControllerReference controllerReference` - The reference to the controller to activate the haptic feedback on.
   * Returns
    * _none_
 
@@ -3294,10 +3294,10 @@ The HapticsOnGrab method triggers the haptic feedback on the given controller fo
 
 #### HapticsOnUse/1
 
-  > `public virtual void HapticsOnUse(uint controllerIndex)`
+  > `public virtual void HapticsOnUse(VRTK_ControllerReference controllerReference)`
 
   * Parameters
-   * `uint controllerIndex` - The controller index to activate the haptic feedback on.
+   * `VRTK_ControllerReference controllerReference` - The reference to the controller to activate the haptic feedback on.
   * Returns
    * _none_
 
@@ -4630,7 +4630,7 @@ Adding the `VRTK_HeadsetControllerAware_UnityEvents` component to `VRTK_HeadsetC
 ### Event Payload
 
  * `RaycastHit raycastHit` - The Raycast Hit struct of item that is obscuring the path to the controller.
- * `uint controllerIndex` - The index of the controller that is being or has been obscured or being or has been glanced.
+ * `VRTK_ControllerReference controllerReference` - The reference to the controller that is being or has been obscured or being or has been glanced.
 
 ### Class Methods
 
@@ -4997,7 +4997,7 @@ Adding the `VRTK_UIPointer_UnityEvents` component to `VRTK_UIPointer` object all
 
 ### Event Payload
 
- * `uint controllerIndex` - The index of the controller that was used.
+ * `VRTK_ControllerReference controllerReference` - The reference to the controller that was used.
  * `bool isActive` - The state of whether the UI Pointer is currently active or not.
  * `GameObject currentTarget` - The current UI element that the pointer is colliding with.
  * `GameObject previousTarget` - The previous UI element that the pointer was colliding with.
@@ -5769,10 +5769,10 @@ The GetControllerByIndex method is used to find a controller based on it's uniqu
 
 #### GetControllerOrigin/1
 
-  > `public static Transform GetControllerOrigin(GameObject controller)`
+  > `public static Transform GetControllerOrigin(VRTK_ControllerReference controllerReference)`
 
   * Parameters
-   * `GameObject controller` - The GameObject to get the origin for.
+   * `VRTK_ControllerReference controllerReference` - The reference to the controller to get the origin for.
   * Returns
    * `Transform` - The transform of the controller origin or if an origin is not set then the transform parent.
 
@@ -5913,10 +5913,10 @@ The GetModelAliasControllerHand method will return the hand that the given model
 
 #### GetControllerVelocity/1
 
-  > `public static Vector3 GetControllerVelocity(GameObject givenController)`
+  > `public static Vector3 GetControllerVelocity(VRTK_ControllerReference controllerReference)`
 
   * Parameters
-   * `GameObject givenController` - The GameObject of the controller.
+   * `VRTK_ControllerReference controllerReference` - The reference to the controller.
   * Returns
    * `Vector3` - A 3 dimensional vector containing the current real world physical controller velocity.
 
@@ -5924,10 +5924,10 @@ The GetControllerVelocity method is used for getting the current velocity of the
 
 #### GetControllerAngularVelocity/1
 
-  > `public static Vector3 GetControllerAngularVelocity(GameObject givenController)`
+  > `public static Vector3 GetControllerAngularVelocity(VRTK_ControllerReference controllerReference)`
 
   * Parameters
-   * `GameObject givenController` - The GameObject of the controller.
+   * `VRTK_ControllerReference controllerReference` - The reference to the controller.
   * Returns
    * `Vector3` - A 3 dimensional vector containing the current real world physical controller angular (rotational) velocity.
 
@@ -6107,9 +6107,10 @@ The IsEditTime method determines if the state of Unity is in the Unity Editor an
 
 #### TriggerHapticPulse/2
 
-  > `public static void TriggerHapticPulse(uint controllerIndex, float strength)`
+  > `public static void TriggerHapticPulse(VRTK_ControllerReference controllerReference, float strength)`
 
   * Parameters
+   * `VRTK_ControllerReference controllerReference` - The reference to the controller to activate the haptic feedback on.
    * `float strength` - The intensity of the rumble of the controller motor. `0` to `1`.
   * Returns
    * _none_
@@ -6118,9 +6119,10 @@ The TriggerHapticPulse/1 method calls a single haptic pulse call on the controll
 
 #### TriggerHapticPulse/4
 
-  > `public static void TriggerHapticPulse(uint controllerIndex, float strength, float duration, float pulseInterval)`
+  > `public static void TriggerHapticPulse(VRTK_ControllerReference controllerReference, float strength, float duration, float pulseInterval)`
 
   * Parameters
+   * `VRTK_ControllerReference controllerReference` - The reference to the controller to activate the haptic feedback on.
    * `float strength` - The intensity of the rumble of the controller motor. `0` to `1`.
    * `float duration` - The length of time the rumble should continue for.
    * `float pulseInterval` - The interval to wait between each haptic pulse.
@@ -6903,6 +6905,15 @@ This is an abstract class to implement the interface required by all implemented
 
 ### Class Variables
 
+ * `public enum ButtonTypes` - Types of buttons on a controller
+  * `ButtonOne` - Button One on the controller.
+  * `ButtonTwo` - Button Two on the controller.
+  * `Grip` - Grip on the controller.
+  * `GripHairline` - Grip Hairline on the controller.
+  * `StartMenu` - Start Menu on the controller.
+  * `Trigger` - Trigger on the controller.
+  * `TriggerHairline` - Trigger Hairline on the controller.
+  * `Touchpad` - Touchpad on the controller.
  * `public enum ButtonPressTypes` - Concepts of controller button press
   * `Press` - The button is currently being pressed.
   * `PressDown` - The button has just been pressed down.
@@ -7110,6 +7121,17 @@ The GetControllerModel method returns the model alias for the given GameObject.
    * `GameObject` - The GameObject that has the model alias within it.
 
 The GetControllerModel method returns the model alias for the given controller hand.
+
+#### GetControllerModelHand/1
+
+  > `public virtual ControllerHand GetControllerModelHand(GameObject controllerModel)`
+
+  * Parameters
+   * `GameObject controllerModel` - The controller model GameObject to get the hand for.
+  * Returns
+   * `ControllerHand` - The hand enum for which the given controller model is for.
+
+The GetControllerModelHand method returns the hand for the given controller model GameObject.
 
 #### GetControllerRenderModel/1
 
